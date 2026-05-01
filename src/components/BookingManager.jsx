@@ -3,6 +3,7 @@ import {useBookingStore} from "../store/useBookingStore";
 import ServiceStep from "./ServiceStep";
 import DateTimeStep from "./DateTimeStep";
 import DetailsStep from "./DetailsStep";
+import {Check} from "lucide-react";
 
 // קומפוננטות זמניות לשלבים (נמלא אותן בהמשך)
 
@@ -28,7 +29,7 @@ export default function BookingManager() {
                     : "bg-gray-200 text-gray-500"
                 }`}
               >
-                {s}
+                {step > s ? <Check size={16} strokeWidth={3} /> : s}
               </div>
 
               {s < 3 && (

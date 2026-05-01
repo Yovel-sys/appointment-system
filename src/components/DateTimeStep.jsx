@@ -8,6 +8,7 @@ export default function DateTimeStep() {
 
   const days = [...Array(7)].map((_, i) => addDays(startOfDay(new Date()), i));
   const timeSlots = ["09:00", "10:00", "11:00", "14:00", "15:00"];
+  const bookedSlots = ["10:00", "14:00"];
 
   return (
     <div className="p-6">
@@ -53,20 +54,27 @@ export default function DateTimeStep() {
         Available Time Slots
       </h3>
       <div className="grid grid-cols-3 gap-2">
-        {timeSlots.map((time) => (
-          <button
-            key={time}
-            disabled={!bookingData.date} // מניעת בחירת שעה לפני יום
-            onClick={() => setDateTime(bookingData.date, time)}
-            className={`p-2 text-sm border rounded-lg transition-all ${
-              !bookingData.date
-                ? "opacity-50 cursor-not-allowed bg-gray-50"
-                : "hover:bg-blue-600 hover:text-white border-gray-200"
-            }`}
-          >
-            {time}
-          </button>
-        ))}
+        {timeSlots.map((time) => {
+          const isBooked = bookedSlots.includes(time);
+          return (
+            <button
+              key={time}
+              // עדכון ה-disabled שיכלול גם שעות תפוסות
+              disabled={!bookingData.date || isBooked}
+              onClick={() => setDateTime(bookingData.date, time)}
+              className={`p-2 text-sm border rounded-lg transition-all ${
+                isBooked
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
+                  : !bookingData.date
+                    ? "opacity-50 cursor-not-allowed bg-gray-50"
+                    : "hover:bg-blue-600 hover:text-white border-gray-200 shadow-sm active:scale-95"
+              }`}
+            >
+              {/* הצגת טקסט שונה אם השעה תפוסה */}
+              {isBooked ? "Full" : time}
+            </button>
+          );
+        })}
       </div>
       {!bookingData.date && (
         <p className="text-xs text-blue-500 mt-3 italic">
