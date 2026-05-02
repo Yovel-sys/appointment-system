@@ -8,7 +8,10 @@ export const useBookingStore = create((set) => ({
     time: null,
     user: {name: "", email: ""},
   },
-
+  setSelectedDate: (date) =>
+    set((state) => ({
+      bookingData: {...state.bookingData, date},
+    })),
   setStep: (step) => set({step}),
 
   setService: (service) =>

@@ -1,11 +1,13 @@
 import {useState} from "react";
 import {useBookingStore} from "../store/useBookingStore";
 import {Loader2} from "lucide-react"; // לאנימציית טעינה
+import {format} from "date-fns";
 
 export default function DetailsStep() {
   const {setStep} = useBookingStore();
   const [loading, setLoading] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const bookingData = useBookingStore((state) => state.bookingData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +20,6 @@ export default function DetailsStep() {
     }, 2000);
   };
 
-  // ... בתוך הקומפוננטה
   if (isConfirmed) {
     return (
       <div className="p-8 text-center">
@@ -79,7 +80,6 @@ export default function DetailsStep() {
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
         Final Details
       </h2>
-      {/* ... שאר הפורם כפי שהיה */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -91,6 +91,37 @@ export default function DetailsStep() {
             className="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             placeholder="John Doe"
           />
+        </div>
+
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
+          <h3 className="text-sm font-bold text-blue-800 uppercase tracking-wider mb-2">
+            Booking Summary
+          </h3>
+
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-blue-600">Service</span>
+              <span className="font-semibold text-gray-700 capitalize">
+                {bookingData.service?.replace("-", " ")}
+              </span>
+            </div>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-blue-600">Date</span>
+              <span className="font-semibold text-gray-700">
+                {bookingData.date
+                  ? format(bookingData.date, "EEEE, MMMM do")
+                  : "No date selected"}
+              </span>
+            </div>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-blue-600">Time</span>
+              <span className="font-semibold text-gray-800 bg-blue-100 px-2 py-0.5 rounded">
+                {bookingData.time}
+              </span>
+            </div>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
