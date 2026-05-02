@@ -1,4 +1,5 @@
 import BookingManager from "./components/BookingManager";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         Professional Yoga & Tech Consulting
       </p>
       <BookingManager />
+      <Footer />
     </div>
   );
 }
